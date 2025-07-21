@@ -1,137 +1,97 @@
-#include <stdio.h>
-#include <stdlib.h>
-#define MAX 100
+#include<stdio.h>
+#include<stdlib.h>
 
-int graph[MAX][MAX], visit[MAX], path[MAX], count = 0, stack[MAX];
-int top = -1, c = 0, i, j;
-
-void dfs(int n, int source) {
-    visit[source] = 1;
-    path[source] = 1;
-
-    for (i = 0; i < n; i++) {
-        count++;
-        if (graph[source][i] && visit[i] && path[i])
-            c = 1;
-        if (graph[source][i] && !visit[i])
-            dfs(n, i);
-    }
-
-    path[source] = 0;
-    stack[++top] = source;
+int n,indegree[20],opcount=0,queue[20],front=-1,rear=-1;
+int i,j;
+int k;
+int bfs(int mat[n][n]){
+	int count=0;
+	front=-1,rear=-1;
+	for(i=0;i<n;i++){
+	 
+	  if(indegree[i]==0){
+	  	queue[++rear]=i;
+	  }
+	
+}
+while(front!=rear){
+	count++;
+	int cur=queue[++front];
+	for(i=0;i<n;i++){
+		opcount++;
+		if(mat[cur][i]){
+			indegree[i]--;
+			if(!indegree[i])
+			  queue[++rear]=i;
+		}
+	}
+}return count!=n;
 }
 
-void tester() {
-    int n;
-    printf("\nEnter the number of vertices: ");
-    scanf("%d", &n);
-
-    printf("Enter the adjacency matrix:\n");
-    for (i = 0; i < n; i++) {
-        visit[i] = 0;
-        path[i] = 0;
-        for (j = 0; j < n; j++) {
-            scanf("%d", &graph[i][j]);
-        }
-    }
-
-    printf("Topological Order:\n");
-    for (i = 0; i < n; i++) {
-        if (!visit[i])
-            dfs(n, i);
-    }
-
-    if (c == 1) {
-        printf("Cycle Detected! Topological sort not possible.\n");
-        return;
-    }
-
-    for (i = top; i >= 0; i--)
-        printf("-->%c", stack[i] + 65);
-    printf("\n");
+void tester(){
+	printf("\n Enter the number of vertices");
+	scanf("%d",&n);
+	int mat[n][n];
+	for(i=0;i<n;i++)
+	
+	  indegree[i]=0;
+	printf("\n Enter the adjacency matrix");
+	for(i=0;i<n;i++){
+		for(j=0;j<n;j++){
+			scanf("%d",&mat[i][j]);
+			if(mat[i][j])
+			  indegree[j]++;
+		}
+	}
+	if(bfs(mat)){
+		printf("\n Cycle exists...");
+		exit(0);
+	}
+	else{
+		printf("\n Topological order:");
+		for(i=0;i<=rear;i++)
+		  printf("%d->",queue[i]);
+		
+	}
+	
 }
 
-void plotter(int k) {
-    int v;
-    FILE *f = NULL;
-
-    if (k == 0)
-        f = fopen("dfstopworst.txt", "w");
-    else
-        f = fopen("dfstopbest.txt", "w");
-
-    if (!f) {
-        printf("File open error!\n");
-        return;
-    }
-
-    for (v = 1; v <= 10; v++) {
-        // Allocate and build graph
-        int **arr = malloc(v * sizeof(int *));
-        for (i = 0; i < v; i++)
-            arr[i] = malloc(v * sizeof(int));
-
-        if (k == 0) {
-            // Worst case: fully connected except diagonal
-            for (i = 0; i < v; i++)
-                for (j = 0; j < v; j++)
-                    arr[i][j] = (i != j) ? 1 : 0;
-        } else {
-            // Best case: linear chain
-            for (i = 0; i < v; i++)
-                for (j = 0; j < v; j++)
-                    arr[i][j] = 0;
-            for (i = 0; i < v - 1; i++)
-                arr[i][i + 1] = 1;
-        }
-
-        // Copy to global graph
-        for (i = 0; i < v; i++) {
-            visit[i] = 0;
-            path[i] = 0;
-            for (j = 0; j < v; j++)
-                graph[i][j] = arr[i][j];
-        }
-
-        count = 0;
-        top = -1;
-        for (i = 0; i < v; i++)
-            if (!visit[i])
-                dfs(v, i);
-
-        fprintf(f, "%d\t%d\n", v, count);
-
-        for (i = 0; i < v; i++)
-            free(arr[i]);
-        free(arr);
-    }
-
-    fclose(f);
+void plotter(){
+	FILE *f1=fopen("source.txt","a");
+	for(k=1;k<=10;k++){
+		n=k;
+		int mat[n][n];
+		for(i=0;i<n;i++)
+		  indegree[i]=0;
+	 for(i=0;i<n;i++)
+	   for(j=0;j<n;j++)
+	      mat[i][j]=0;
+	for(i=0;i<n;i++){
+		for(j=i+1;j<n;j++){
+			mat[i][j]=1;
+			indegree[j]++;
+		}
+	}
+	opcount=0;
+	bfs(mat);
+	fprintf(f1,"%d\t%d\n",n,opcount);
+	}
+	fclose(f1);
 }
 
-int main() {
-    int ch;
-    for (;;) {
-        printf("\n1. Test Topological Sort");
-        printf("\n2. Generate Best and Worst Case Files");
-        printf("\n3. Exit");
-        printf("\nEnter your choice: ");
-        scanf("%d", &ch);
-
-        switch (ch) {
-        case 1:
-            tester();
-            break;
-        case 2:
-            plotter(0); // worst case
-            plotter(1); // best case
-            printf("Files generated: dfstopbest.txt and dfstopworst.txt\n");
-            break;
-        case 3:
-            exit(0);
-        default:
-            printf("Invalid choice!\n");
-        }
-    }
-    return 0;
+void main(){
+	int ch;
+	for(;;){
+		printf("\n Enter ur choice 1.to test 2.to plot 3.exit");
+		scanf("%d",&ch);
+		switch(ch){
+			case 1:tester();
+			        break;
+			case 2:plotter();
+			        break;
+			default:printf("\n Invalid choice");
+		}
+	}
 }
+	
+
