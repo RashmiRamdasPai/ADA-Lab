@@ -4,10 +4,10 @@
  
  int count=0,i,j;
  
- void dijkstra(int n,int cost[15][15],int source,int dist[15]){
+ void dijkstra(int n,int cost[15][15],int source){
  	int num;
  	int visited[15]={0},i,j,min,u;
- 	
+ 	int dist[15];
  	for(i=1;i<=n;i++){
  		dist[i]=cost[source][i];
 	 }
@@ -44,7 +44,7 @@
 	 }
 	 printf("\n Enter the source vertex");
 	 scanf("%d",&source);
-	 dijkstra(n,cost,source,dist);
+	 dijkstra(n,cost,source);
 	 printf("Vertex\tDestination\tCost\n");
 	 for(i=1;i<=n;i++)
 	   printf("%d\t %d\t\t %d\n",source,i,dist[i]);
@@ -65,9 +65,10 @@
 			 }
 		 }
 		 count=0;
-		 dijkstra(v,cost,1,dist_p);
-		 fprintf(f,"%d\t%d\n",v,count,dist_p);
+		 dijkstra(v,cost,1);
+		 fprintf(f,"%d\t%d\n",v,count);
 	 }
+	 fclose(f);
  }
  int main(){
  	int ch;
