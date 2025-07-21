@@ -1,3 +1,4 @@
+
 #include<stdio.h>
 #include<stdlib.h>
 #define MAX 100
@@ -53,8 +54,9 @@ void tester(){
 void plotter(){
 	FILE *f2 = fopen("knap.txt","a");
 	for(k=1;k<=10;k++){
-		n=n*2;
-		m=m*5;
+		count=0;
+		n=k*2;
+		m=k*5;
 		for(i=1;i<=n;i++){
 			w[i]=rand()%m+1;
 			v[i]=rand()%50+1;
