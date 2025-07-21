@@ -47,7 +47,7 @@ void worst(int arr[],int beg,int end){
 		int n2=(end-beg);
 		int a[n1],b[n2];
 		for(i=0;i<n1;i++)
-		  arr[i]=arr[(2*i)];
+		  a[i]=arr[(2*i)];
 		for(j=0;j<n2;j++)
 		   b[j]=arr[(2*j)+1];
 		worst(a,beg,mid);
