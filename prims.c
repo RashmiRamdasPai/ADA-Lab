@@ -19,18 +19,18 @@
  	*b=temp;
  }
  void heapify(struct edge arr[],int n,int i){
- 	int largest=i;
+ 	int smallestt=i;
  	int left=2*i+1;
  	int right=2*i+2;
  	heapcount++;
- 	if(left<n && arr[left].dist < arr[largest].dist)
- 	     largest = left;
- 	if(right<n && arr[right].dist<arr[largest].dist)
- 	      largest=right;
- 	if(largest!=i)
+ 	if(left<n && arr[left].dist < arr[smallest].dist)
+ 	     smallest = left;
+ 	if(right<n && arr[right].dist<arr[smallest].dist)
+ 	      smallest=right;
+ 	if(smallest!=i)
  	{
- 		swap(&arr[i],&arr[largest]);
- 		heapify(arr,n,largest);
+ 		swap(&arr[i],&arr[smallest]);
+ 		heapify(arr,n,smallest);
 	 }
    }
    void heapsort(struct edge arr[],int n){
