@@ -19,7 +19,7 @@
  	*b=temp;
  }
  void heapify(struct edge arr[],int n,int i){
- 	int smallestt=i;
+ 	int smallest=i;
  	int left=2*i+1;
  	int right=2*i+2;
  	heapcount++;
@@ -117,6 +117,7 @@
 		 }
 		 max =(graphcount>heapcount)?graphcount:heapcount;
 		 printf("basic count = %d",max);
+		 fprintf(f1,"%d\t%d\n",n,max);
    }
    void main(){
    	int ch;
@@ -134,3 +135,5 @@
    		default:printf("\n Invalid choice");}
 	   }
    }
+ 
+ 
