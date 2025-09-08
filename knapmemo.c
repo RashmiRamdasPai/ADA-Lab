@@ -83,7 +83,7 @@ void plotter()
         init(n, m);
         opcount = 0;
         knapsackMemo(n, m);
-        fprintf(fp, "%d\t%d\n", i, opcount);
+        fprintf(fp, "%d\t%d\n", n, opcount);
     }
     fclose(fp);
 }
