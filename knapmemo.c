@@ -3,7 +3,7 @@
 #include <time.h>
 
 int opcount = 0, dp[25][25], weight[25], profit[25];
-int i,j;
+int i,j,k;
 int max(int num1, int num2)
 {
     return num1 > num2 ? num1 : num2;
@@ -23,9 +23,9 @@ int knapsackMemo(int n, int W)
 
 void init(int n, int W)
 {
-    for (i = 0; i <= n; i++)
+    for ( i = 0; i <= n; i++)
     {
-        for ( j = 0; j <= W; j++)
+        for (j = 0; j <= W; j++)
             if (i == 0 || j == 0)
                 dp[i][j] = 0;
             else
@@ -57,12 +57,12 @@ void tester()
     }
     printf("Picked items:\n");
     int k = W;
-    for (i = n; i > 0; i--)
+    for ( i = n; i > 0; i--)
     {
         if (dp[i][k] != dp[i - 1][k])
         {
             printf("%d\t", i);
-            k -= weight[i];
+            k -= weight[i - 1];
         }
     }
     printf("\nOpcount:%d", opcount);
@@ -71,17 +71,18 @@ void tester()
 void plotter()
 {
     FILE *fp = fopen("knapsackMemo.txt", "w");
-    for ( i = 5; i <= 10; i++)
+    for(k=1;k<=10;k++)
     {
-        int W = i * 2;
-        for (j = 0; j < i; j++)
+        int n=k*2;
+        int m=k*5;
+        for (j = 1; j <= n; j++)
         {
-            weight[j] = rand() % 10 + 1;
+            weight[j] = rand() % m + 1;
             profit[j] = rand() % 50 + 1;
         }
-        init(i, W);
+        init(n, m);
         opcount = 0;
-        knapsackMemo(i, W);
+        knapsackMemo(n, m);
         fprintf(fp, "%d\t%d\n", i, opcount);
     }
     fclose(fp);
