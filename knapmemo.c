@@ -15,8 +15,8 @@ int knapsackMemo(int n, int W)
         return dp[n][W];
 
     opcount++;
-    if (weight[n - 1] <= W)
-        return dp[n][W] = max(knapsackMemo(n - 1, W), profit[n - 1] + knapsackMemo(n - 1, W - weight[n - 1]));
+    if (weight[n] <= W)
+        return dp[n][W] = max(knapsackMemo(n - 1, W), profit[n] + knapsackMemo(n - 1, W - weight[n]));
     else
         return dp[n][W] = knapsackMemo(n - 1, W);
 }
@@ -40,9 +40,9 @@ void tester()
     scanf("%d", &n);
     printf("Sack capacity: ");
     scanf("%d", &W);
-    for (i = 0; i < n; i++)
+    for (i = 1; i <= n; i++)
     {
-        printf("Enter weight and profit of item %d :", i + 1);
+        printf("Enter weight and profit of item %d :", i );
         scanf("%d%d", &weight[i], &profit[i]);
     }
     init(n, W);
