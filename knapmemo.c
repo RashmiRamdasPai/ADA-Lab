@@ -62,7 +62,7 @@ void tester()
         if (dp[i][k] != dp[i - 1][k])
         {
             printf("%d\t", i);
-            k -= weight[i - 1];
+            k -= weight[i];
         }
     }
     printf("\nOpcount:%d", opcount);
