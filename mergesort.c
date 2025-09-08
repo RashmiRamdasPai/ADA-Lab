@@ -99,6 +99,9 @@ void plotter(){
 		free(arr);
 		n=n*2;
 	}
+	fclose(f1);
+	fclose(f2);
+	fclose(f3);
 	
 }
 void main(){
