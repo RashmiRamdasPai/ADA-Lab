@@ -3,6 +3,7 @@
 
 int isCycle = 0, components = 0, n, opcount = 0, isTester = 0;
 int i,j,k;
+int iscyclic=0;
 
 void dfs(int mat[n][n], int *vis, int source, int par)
 {
@@ -61,7 +62,7 @@ void tester()
 }
 
 void plotter(){
-	istester=0;
+	isTester=0;
 	FILE *f1 = fopen("bfsbest.txt","a");
 	FILE *f2 = fopen("bfsworst.txt","a");
 	for(k=1;k<=10;k++){
@@ -79,8 +80,8 @@ void plotter(){
 	
 	opcount=0;
 	iscyclic=0;
-	connected=0;
-	connectivity(mat);
+	components=0;
+	checkConnectivity(mat);
 	fprintf(f1,"%d\t%d\n",n,opcount);
 	//best case:linear chain
 	for(i=0;i<n;i++)
@@ -93,8 +94,8 @@ void plotter(){
 		  }
 		  opcount=0;
 	iscyclic=0;
-	connected=0;
-	connectivity(mat);
+	components=0;
+	checkConnectivity(mat);
 	fprintf(f2,"%d\t%d\n",n,opcount);
 	  
 }fclose(f1);
