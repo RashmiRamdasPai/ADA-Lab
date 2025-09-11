@@ -1,86 +1,81 @@
-#include<stdio.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
 
-int n,opcount,paths[100][100];
-int i,j,k;
-int warshall(int adj[n][n],int n){
-	opcount=0;
-	for(i=0;i<n;i++)
-	  for(j=0;j<n;j++)
-	     paths[i][j]=adj[i][j];
-	for(k=0;k<n;k++){
-		for(i=0;i<n;i++){
-			if(paths[i][k]){
-				for(j=0;j<n;j++){
-					opcount++;
-					paths[i][j]=paths[i][j]||paths[i][k] && paths[k][j];
-				}
-			}
-		}
-	}
+int mat[100][100], paths[100][100];
+int n;
+int count=0;
+
+void warshal(int mat[100][100], int n) {
+    // Initialize paths matrix
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < n; j++)
+            paths[i][j] = mat[i][j];
+
+    // Warshall’s algorithm
+    for (int k = 0; k < n; k++) {
+        for (int i = 0; i < n; i++) {
+            if (paths[i][k]) {  // only check if i->k path exists
+                for (int j = 0; j < n; j++) {
+                        count++;
+                    paths[i][j] = paths[i][j] || paths[k][j];
+                }
+            }
+        }
+    }
 }
 
-void tester(){
-	printf("\n Enter the number of vertices:");
-	scanf("%d",&n);
-	int mat[n][n];
-	printf("\n Enter the adjacency matrix");
-	for(i=0;i<n;i++){
-		for(j=0;j<n;j++){
-			scanf("%d",&mat[i][j]);
-		}
-	}
-	warshall(mat,n);
-	printf("\n Transitive closure:");
-	for(i=0;i<n;i++){
-	
-	  for(j=0;j<n;j++)
-	     printf("%d",paths[i][j]);
-	printf("\n");}
-}
+void tester() {
+    printf("\nEnter the number of vertices: ");
+    scanf("%d", &n);
 
+    printf("\nEnter the adjacency matrix:\n");
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < n; j++)
+            scanf("%d", &mat[i][j]);
+
+    warshal(mat, n);
+
+    printf("\nPath matrix:\n");
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++)
+            printf("%d ", paths[i][j]);
+        printf("\n");
+    }
+}
 void plotter(){
-	FILE *f1 =  fopen("warshalbest.txt","a");
-	FILE *f2 =  fopen("warshalworst.txt","a");
-	for(k=1;k<=10;k++){
-		n=k;
-		int mat[n][n];
-	  for(j=0;j<n;j++)
-	  	for(i=0;i<n;i++)
-	  		if(i!=j)
-	  		  mat[i][j]=1;
-	  		else 
-	  		  mat[i][j]=0;
-		  warshall(mat,n);
-		  fprintf(f2,"%d\t%d\n",n,opcount);
-		  for(i=0;i<n;i++)
-		    for(j=0;j<n;j++)
-		       mat[i][j]=0;
-		for(i=0;i<n-1;i++)
-		  mat[i][i+1]=1;
-		mat[n-1][0]=1;
-		warshall(mat,n);
-		fprintf(f1,"%d\t%d\n",n,opcount);
-	  
-	}
-	fclose(f1);
-	fclose(f2);
+        FILE *f1=fopen("warshalbest1.txt","a");
+        FILE *f2=fopen("warshalworst1.txt","a");
+        for(int k=1;k<=10;k++){
+                 n=k;
+                 int mat[n][n];
+                 count=0;
+                 //best case
+                 for(int i=0;i<n;i++)
+                         for(int j=0;j<n;j++)
+                                 mat[i][j]=0;
+                 for(int i=0;i<n-1;i++)
+                         mat[i][i+1]=1;
+                 warshal(mat,n);
+                 fprintf(f1,"%d\t%d\n",n,count);
+                 //worst case
+                 for(int i=0;i<n;i++){
+                         for(int j=0;j<n;j++){
+                                 if(i==j)
+                                         mat[i][j]=1;
+                                 else
+                                         mat[i][j]=0;}}
+                 count=0;
+                  warshal(mat,n);
+                 fprintf(f2,"%d\t%d\n",n,count);
+        }
+        fclose(f1);
+        fclose(f2);
 }
 
 void main(){
-	int ch;
-	for(;;){
-	
-	printf("\n 1.Tester 2.Plotter 3.Exit \n");
-	printf("\n Enter your choice");
-	scanf("%d",&ch);
-	switch(ch){
-		case 1:tester();
-		       break;
-		case 2:plotter();
-		      break;
-		case 3:exit(0);
-	    default:printf("\n Inavlid choice");
-	}
+        tester();
+        plotter();
 }
-}
+
+
+~                      
