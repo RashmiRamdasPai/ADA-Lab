@@ -57,12 +57,14 @@ void tester(){
 }
 
 void plotter(){
-	FILE *f1=fopen("source.txt","a");
+	FILE *f2=fopen("sourceworst.txt","a");
+	FILE *f1=fopen("sourcebest.txt","a");
 	for(k=1;k<=10;k++){
 		n=k;
 		int mat[n][n];
 		for(i=0;i<n;i++)
 		  indegree[i]=0;
+		  //worst case
 	 for(i=0;i<n;i++)
 	   for(j=0;j<n;j++)
 	      mat[i][j]=0;
@@ -74,9 +76,25 @@ void plotter(){
 	}
 	opcount=0;
 	bfs(mat);
+	fprintf(f2,"%d\t%d\n",n,opcount);
+		for(i=0;i<n;i++)
+		  indegree[i]=0;
+		  //worst case
+	 for(i=0;i<n;i++)
+	   for(j=0;j<n;j++)
+	      mat[i][j]=0;
+	for(i=0;i<n-1;i++){
+	     mat[i][i+1]=1;
+			indegree[i+1]++;
+		}
+			opcount=0;
+	bfs(mat);
 	fprintf(f1,"%d\t%d\n",n,opcount);
 	}
+	
+	
 	fclose(f1);
+	fclose(f2);
 }
 
 void main(){
@@ -94,4 +112,3 @@ void main(){
 	}
 }
 	
-
