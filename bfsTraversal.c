@@ -73,10 +73,12 @@ opcount = 0;
 
 void plotter(){
 	istester=0;
-	FILE *f = fopen("bfs.txt","a");
+	FILE *f1 = fopen("bfsbest.txt","a");
+	FILE *f2 = fopen("bfsworst.txt","a");
 	for(k=1;k<=10;k++){
 		n=k;
 		int mat[n][n];
+		//worst case:complete graph
 		for(i=0;i<n;i++){
 			for(j=0;j<n;j++){
 				if(i!=j)
@@ -90,8 +92,25 @@ void plotter(){
 	iscyclic=0;
 	connected=0;
 	connectivity(mat);
-	fprintf(f,"%d %d",n,opcount);
-}fclose(f);}
+	fprintf(f1,"%d\t%d\n",n,opcount);
+	//best case:linear chain
+	for(i=0;i<n;i++)
+		for(j=0;j<n;j++)
+			mat[i][j]=0;
+	for(i=0;i<n-1;i++)
+{
+		  mat[i][i+1]=1;
+		  mat[i+1][i]=1;
+		  }
+		  opcount=0;
+	iscyclic=0;
+	connected=0;
+	connectivity(mat);
+	fprintf(f2,"%d\t%d\n",n,opcount);
+	  
+}fclose(f1);
+fclose(f2);
+}
 
 void main(){
 	int ch;
