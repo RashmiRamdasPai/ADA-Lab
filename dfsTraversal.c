@@ -60,32 +60,47 @@ void tester()
         printf("Cycle doesnot exists\n");
 }
 
-void plotter()
+void plotter(){
+	istester=0;
+	FILE *f1 = fopen("bfsbest.txt","a");
+	FILE *f2 = fopen("bfsworst.txt","a");
+	for(k=1;k<=10;k++){
+		n=k;
+		int mat[n][n];
+		//worst case:complete graph
+		for(i=0;i<n;i++){
+			for(j=0;j<n;j++){
+				if(i!=j)
+				  mat[i][j]=1;
+				else
+				 mat[i][j]=0;
+			}
+		}
+	
+	opcount=0;
+	iscyclic=0;
+	connected=0;
+	connectivity(mat);
+	fprintf(f1,"%d\t%d\n",n,opcount);
+	//best case:linear chain
+	for(i=0;i<n;i++)
+		for(j=0;j<n;j++)
+			mat[i][j]=0;
+	for(i=0;i<n-1;i++)
 {
-    FILE *f1 = fopen("dfsadjMat.txt", "w");
-    isTester = 0;
-
-    for (k = 1; k <= 10; k++)
-    {
-        n = k;
-        int adjMat[n][n];
-
-        for (i = 0; i < n; i++)
-        {
-            for (j = 0; j < n; j++)
-            {
-                if (i != j)
-                    adjMat[i][j] = 1;
-                else
-                    adjMat[i][j] = 0;
-            }
-        }
-        opcount = 0;
-        checkConnectivity(adjMat);
-        fprintf(f1, "%d\t%d\n", n, opcount);
-    }
-    fclose(f1);
+		  mat[i][i+1]=1;
+		  mat[i+1][i]=1;
+		  }
+		  opcount=0;
+	iscyclic=0;
+	connected=0;
+	connectivity(mat);
+	fprintf(f2,"%d\t%d\n",n,opcount);
+	  
+}fclose(f1);
+fclose(f2);
 }
+
 
 void main()
 {
