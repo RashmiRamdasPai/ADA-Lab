@@ -2,13 +2,13 @@
 #include <stdlib.h>
 
 int n, opcount = 0, top = -1;
-
+int i,j,k;
 int dfs(int mat[n][n], int *vis, int *track, int source, int *stack)
 {
     vis[source] = 1;
     track[source] = 1;
 
-    for (int i = 0; i < n; i++)
+    for ( i = 0; i < n; i++)
     {
         opcount++;
         if (mat[source][i] && track[i] && vis[i])
@@ -32,12 +32,12 @@ int *checkConnectivity(int mat[n][n])
     int vis[n], track[n];
     int* stack = (int*)malloc(n * sizeof(int));
 
-    for (int i = 0; i < n; i++)
+    for ( i = 0; i < n; i++)
     {
         vis[i] = 0;
     }
 
-    for (int i = 0; i < n; i++)
+    for (i = 0; i < n; i++)
     {
         if (!vis[i])
         {
@@ -58,9 +58,9 @@ void tester()
     int adjMat[n][n];
 
     printf("Enter the adjacency matrix :\n");
-    for (int i = 0; i < n; i++)
+    for ( i = 0; i < n; i++)
     {
-        for (int j = 0; j < n; j++)
+        for ( j = 0; j < n; j++)
         {
             scanf("%d", &adjMat[i][j]);
         }
@@ -85,20 +85,21 @@ void tester()
 
 void plotter()
 {
-    FILE *f1 = fopen("dfsTopSort.txt", "w");
+    FILE *f1 = fopen("dfsTopSortworst1.txt", "w");
+    FILE *f2 = fopen("dfsTopSortbest1.txt", "w");
 
-    for (int k = 1; k <= 10; k++)
+    for (k = 1; k <= 10; k++)
     {
         n = k;
         int adjMat[n][n];
-
-        for (int i = 0; i < n; i++)
-            for (int j = 0; j < n; j++)
+           //worst case upper triangle
+         for (i = 0; i < n; i++)
+            for (j = 0; j < n; j++)
                 adjMat[i][j] = 0;
 
-        for (int i = 0; i < n - 1; i++)
+        for (i = 0; i < n - 1; i++)
         {
-            for (int j = i + 1; j < n; j++)
+            for (j = i + 1; j < n; j++)
             {
                 adjMat[i][j] = 1;
             }
@@ -106,7 +107,18 @@ void plotter()
 
         opcount = 0, top = -1;
         checkConnectivity(adjMat);
-        fprintf(f1, "%d\t%d\n", n, opcount);
+        fprintf(f1,"%d\t%d\n", n, opcount);
+        //best case
+        for(i=0;i<n;i++)
+        for(j=0;j<n;j++)
+          adjMat[i][j]=0;
+        for(i=0;i<n-1;i++){
+        	adjMat[i][i+1]=1;
+        	
+		}
+		 opcount = 0, top = -1;
+        checkConnectivity(adjMat);
+        fprintf(f2,"%d\t%d\n", n, opcount);
     }
 
     fclose(f1);
