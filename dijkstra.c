@@ -28,7 +28,7 @@ void dijkstra(int source){
               u=-1;
               min=999;
               for(int w=1;w<=n;w++){
-                      count++;
+                      
                       if(vis[w]==0 && key[w]<min){
                               u=w;
                               min=key[w];
