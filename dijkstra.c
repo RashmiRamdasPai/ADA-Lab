@@ -33,8 +33,9 @@ void dijkstra(int source){
                               u=w;
                               min=key[w];
                       }}
-                      vis[u]=1;
+                      
                if(u==-1) break;
+           vis[u]=1;
                for(int w=1;w<=n;w++){
                        count++;
                        if(mat[u][w]!=0 && vis[w]==0 && key[w]>key[u]+mat[u][w])
