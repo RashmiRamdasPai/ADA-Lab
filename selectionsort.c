@@ -6,7 +6,7 @@ void selection(int *arr,int n){
         int pos,temp;
         for(int i=0;i<n-1;i++){
                 pos=i;
-                for(int j=i+1;j<n-i-1;j++){
+                for(int j=i+1;j<n;j++){
                         count++;
                         if(arr[j]<arr[pos])
                                 pos=j;
