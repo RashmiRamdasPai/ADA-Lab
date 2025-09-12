@@ -1,89 +1,77 @@
 #include<stdio.h>
 #include<stdlib.h>
-#define INF 999
-int i,j,num,count=0;
-void dijkstras(int n,int cost[15][15],int source,int dist[15]){
-	
-	int min=0,u;
-	int visited[15]={0};
-	for(i=1;i<=n;i++)
-	 dist[i]=cost[source][i];
-	 
-	dist[source]=0;
-	visited[source]=1;
-	//dikstras core loop
-	for(num=2;num<=n;num++){
-		min=INF;
-		for(j=1;j<=n;j++){
-			if(visited[j]==0 && dist[j]<min){
-				min=dist[j];
-				u=j;
-			}
-			  
-		}
-		visited[u]=1;
-		for(j=1;j<=n;j++){
-			count++;
-			if(visited[j]==0 && dist[j]>dist[u]+cost[u][j]){
-				dist[j]=dist[u]+cost[u][j];
-			}
-		}
-	}
-}
-void tester(){
-	int n,cost[15][15],source,dist[15];
-	printf("\n Enter the number of vertices");
-	scanf("%d",&n);
-	printf("\n Enter the cost matrix:\n");
-	for(i=1;i<=n;i++){
-		for(j=1;j<=n;j++){
-			scanf("%d",&cost[i][j]);
-		}
-	}
-	printf("\n Enter the source\n");
-	scanf("%d",&source);
-	dijkstras(n,cost,source,dist);
-	for(i=1;i<=n;i++)
-	  printf("%d-%d=%d\n",source,i,dist[i]);
-}
+#include<time.h>
 
+int mat[100][100],key[100],vis[100],source;
+int count=0;int n;
+int i,j,w;
+void create(int n){
+        for(int i=1;i<=n;i++){
+                for(int j=1;j<=n;j++){
+                        if(i==j)
+                                mat[i][j]=0;
+                        else
+                                mat[i][j]=rand()%100+1;}}}
+
+void dijkstra(int source){
+        int min,u;
+   for(int i=1;i<=n;i++)
+       {
+               vis[i]=0;
+               key[i]=mat[source][i];
+       }
+   key[source]=0;
+
+
+   //dikstra core loop
+   for(i=1;i<=n;i++){
+              u=-1;
+              min=999;
+              for(int w=1;w<=n;w++){
+                      count++;
+                      if(vis[w]==0 && key[w]<min){
+                              u=w;
+                              min=key[w];
+                      }}
+                      vis[u]=1;
+               if(u==-1) break;
+               for(int w=1;w<=n;w++){
+                       count++;
+                       if(mat[u][w]!=0 && vis[w]==0 && key[w]>key[u]+mat[u][w])
+                               key[w]=key[u]+mat[u][w];
+               }}}
+         void tester(){
+
+        printf("\n Enter the number of vertices");
+        scanf("%d",&n);
+        printf("\n Enter the cost matrix:\n");
+        for(int i=1;i<=n;i++){
+                for(int j=1;j<=n;j++){
+                        scanf("%d",&mat[i][j]);
+
+
+                }
+        }
+        printf("\n Enter the source\n");
+        scanf("%d",&source);
+        dijkstra(source);
+        for(int i=1;i<=n;i++)
+          printf("%d-%d=%d\n",source,i,key[i]);
+}
 void plotter(){
-	int v;
-	FILE *f=fopen("dikstra.txt","a");
-	for(v=2;v<=10;v++){
-		int cost[15][15];
-		int dis_p[15];
-		for(i=1;i<=v;i++){
-			for(j=1;j<=v;j++){
-				if(i==j)
-				   cost[i][j]=0;
-				else
-				   cost[i][j]=rand()%10+1;
-			}
-		}
-		count=0;
-		dijkstras(v,cost,1,dis_p);
-		fprintf(f,"%d\t%d\n",v,count);
-	}
+        FILE *fp=fopen("dij.txt","w");
+        srand(time(NULL));
+        for(i=2;i<=10;i++){
+                n=i;
+                count=0;
+                create(n);
+                dijkstra(1);
+                fprintf(fp,"%d\t%d\n",n,count);
+        }
+        fclose(fp);
 }
-
-	int main(){
- 	int ch;
- 		while(ch!=3){
- 	printf("\n Enter ur choice");
- 	printf("\n1.To test \n2.To plot \n0.Exit");
- 	scanf("%d",&ch);
- 
-	 
- 	switch(ch){
- 		case 1:tester();
- 		break;
- 		case 2:plotter();
- 		break;
- 		case 0:exit(0);
- 		default:break;
-	 }}
- }
-	
-
-	
+void main(){
+        tester();
+        plotter();
+}
+~                             
