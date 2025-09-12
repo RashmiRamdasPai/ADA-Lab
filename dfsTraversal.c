@@ -55,8 +55,10 @@ void plotter(){
          for(int i=0;i<n;i++)
                  for(int j=0;j<n;j++)
                          mat[i][j]=0;
-         for(int i=0;i<n-1;i++)
+         for(int i=0;i<n-1;i++){
                  mat[i][i+1]=1;
+                 mat[i+1][i]=1;
+        }
          connectivity(mat);
          fprintf(f1,"%d\t%d\n",n,count);
          //worst case
